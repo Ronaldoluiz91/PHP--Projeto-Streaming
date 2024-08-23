@@ -16,7 +16,8 @@ if (
 if ($userPassword !== $userConfirmPassword) {
     $resp = "ERRO - a senha não combina com a confirmação de senha";
 } else {
-    //criptografia se a senha e hash
+
+    //criptografa a senha e hash
     $apikkey = "manga";
     $apikkey = (md5($apikkey));
 
