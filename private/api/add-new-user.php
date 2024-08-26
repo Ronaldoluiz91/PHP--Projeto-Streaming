@@ -11,34 +11,57 @@ if (
 ) {
     $resp = "ERRO - Algum campo está vazio";
     //exit
-}
-//verificar se a senha e a sua confirmação de é restritamente igual
-if ($userPassword !== $userConfirmPassword) {
-    $resp = "ERRO - a senha não combina com a confirmação de senha";
 } else {
+    include("../api/db/conn.php");
 
-    //criptografa a senha e hash
-    $apikkey = "manga";
-    $apikkey = (md5($apikkey));
+    $sql = "SELECT email FROM tbl_login WHERE email='$userEmail'";
 
-    $usernameC = (md5($username));
-    $userEmailC = (md5($userEmail));
-    $userPasswordC = (md5($userPassword));
+    $exc = $conn->query($sql);
 
-    $senhaDB = (md5($apikkey . $userPasswordC . $userEmailC));
-    $hashDB = (md5($usernameC . $apikkey . $userPasswordC));
+    if ($exc->num_rows === 0) {
 
-    $custSenha = '09';
-    $custHash = '08';
+        //verificar se a senha e a sua confirmação de é restritamente igual
+        if ($userPassword !== $userConfirmPassword) {
+            $resp = "ERRO - a senha não combina com a confirmação de senha";
+        } else {
 
-    $saltSenha = $senhaDB;
-    $saltHash = $hashDB;
+            //criptografa a senha e hash
+            $apikkey = "manga";
+            $apikkey = (md5($apikkey));
 
-    //Cript senha
-    $senhaDB = crypt($userEmail, '$2b$' . $custSenha . '$' . $saltSenha . '$');
+            $usernameC = (md5($username));
+            $userEmailC = (md5($userEmail));
+            $userPasswordC = (md5($userPassword));
 
-    //Cript Hash
-    $hashDB = crypt($usernameC, '$2b$' . $custHash . '$' . $saltHash . '$');
+            $senhaDB = (md5($apikkey . $userPasswordC . $userEmailC));
+            $hashDB = (md5($usernameC . $apikkey . $userPasswordC));
+
+            $custSenha = '09';
+            $custHash = '08';
+
+            $saltSenha = $senhaDB;
+            $saltHash = $hashDB;
+
+            //Cript senha
+            $senhaDB = crypt($userEmail, '$2b$' . $custSenha . '$' . $saltSenha . '$');
+
+            //Cript Hash
+            $hashDB = crypt($userEmailC, '$2b$' . $custHash . '$' . $saltHash . '$');
+
+
+            $sql = "INSERT INTO `tbl_login` (`idLogin`, `nome`, `email`, `senha`, `hash`, `FK_idStatus`, `FK_idAcesso`) VALUES (NULL, '$username', '$userEmail', '$senhaDB', '$hashDB', '1', '2')";
+
+            $exc = $conn->query($sql);
+
+            $resp = "Usuario Cadastrado com sucesso";
+        }
+    } else {
+        $resp = "email ja cadastrado";
+        $conn->close();
+    }
 }
 
-echo "Senha MD5:  $senhaDB <br> hash MD5: $hashDB ";
+
+
+
+echo $resp;
