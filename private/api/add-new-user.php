@@ -61,7 +61,4 @@ if (
     }
 }
 
-
-
-
 echo $resp;
