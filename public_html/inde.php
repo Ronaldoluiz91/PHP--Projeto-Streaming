@@ -17,7 +17,7 @@ include ("inc/head.inc.php");
     </form>
     <hr>
     <p>
-        <a href="#">Recuperar senha</a> | <a href="user-register.php">Cadastrar usuário</a>
+        <a href="recover-password-form.php">Recuperar senha</a> | <a href="user-register.php">Cadastrar usuário</a>
     </p>
 </main>
 

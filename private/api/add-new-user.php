@@ -12,9 +12,11 @@ if (
     $resp = "ERRO - Algum campo está vazio";
     //exit
 } else {
-    include("../api/db/conn.php");
+    include("../db/conn.php");
 
-    $sql = "SELECT email FROM tbl_login WHERE email='$userEmail'";
+
+//verificar se email e usuario ja existe no banco de dados
+    $sql = "SELECT email, nome FROM tbl_login WHERE email='$userEmail' OR nome='$username'";
 
     $exc = $conn->query($sql);
 
@@ -43,10 +45,10 @@ if (
             $saltHash = $hashDB;
 
             //Cript senha
-            $senhaDB = crypt($userEmail, '$2b$' . $custSenha . '$' . $saltSenha . '$');
+            $senhaDB = crypt($userEmailC, '$2b$' . $custSenha . '$' . $saltSenha . '$');
 
             //Cript Hash
-            $hashDB = crypt($userEmailC, '$2b$' . $custHash . '$' . $saltHash . '$');
+            $hashDB = crypt($usernameC, '$2b$' . $custHash . '$' . $saltHash . '$');
 
 
             $sql = "INSERT INTO `tbl_login` (`idLogin`, `nome`, `email`, `senha`, `hash`, `FK_idStatus`, `FK_idAcesso`) VALUES (NULL, '$username', '$userEmail', '$senhaDB', '$hashDB', '1', '2')";
@@ -56,7 +58,7 @@ if (
             $resp = "Usuario Cadastrado com sucesso";
         }
     } else {
-        $resp = "email ja cadastrado";
+        $resp = "Usuario ja cadastrado";
         $conn->close();
     }
 }

@@ -20,7 +20,7 @@ include("inc/head.inc.php");
     </form>
     <hr>
     <p>
-        <a href="#">Recuperar senha</a> | <a href="inde.php">Login</a>
+        <a href="recover-password-form.php">Recuperar senha</a> | <a href="inde.php">Login</a>
     </p>
 </main>
 
