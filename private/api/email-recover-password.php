@@ -15,7 +15,8 @@ if ($exc->num_rows > 0) {
         $hashRec = $row["hash"];
 
         echo "A sua senha será recuperada clicando no link abaixo <br>";
-        echo "<a href ='link-rec-password.php?idRec=$hashRec'>Clique aqui</a>";  
+        echo "<a href ='link-rec-password.php?idRec=$hashRec'>Clique aqui</a>";
+  
     }
  
 }else{
