@@ -18,7 +18,7 @@ if (
     $resp = "ERRO - Algum campo está vazio";
 } else {
 
-    $sql = "SELECT hash FROM tbl_login WHERE nome='$username' OR email='$username'";
+    $sql = "SELECT hash FROM tbl_login WHERE nome='$username' OR email='$username' AND hash='hash'";
 
     $exc = $conn->query($sql);
 
